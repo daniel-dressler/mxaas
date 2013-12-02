@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Memory Exhaustion as a Service</title>
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Memory Exhaustion as a Service</a>
+        </div>
+      </div>
+    </div>
+
+	<div class="container">
+		<div class="col-lg-12">
+			<h3>Why would I use this?</h3>
+			<p>Have too much memory? Want to see how your browser handles run
+			away javascript? Do javascript memory leaks sound interesting?</p>
+			<h3>How does this work?</h3>
+			<p>This webapp will allocate an unbounded sized array of
+			integers until it gets killed by the browser's or kernel's out of
+			memory killer.</p>
+		</div>
+		<div class="jumbotron col-lg-12">
+			<div class="container">
+				<div class="col-lg-6">
+					<button id="please_oom_btn" type="button" class="btn btn-danger">Please solve my too
+					much memory pain point</button>
+				</div>
+				<div class="col-lg-6">
+					Used for Mozilla <a
+						href="https://bugzilla.mozilla.org/show_bug.cgi?id=939372">
+						Bug #939372
+					</a>
+				</div>
+			</div>
+		</div>
+</div>
+<script language="javascript" type="text/javascript">
+	document.getElementById("please_oom_btn").addEventListener("click",
+		function () {
+			var unbounded_list = [];
+			while (true) {
+				unbounded_list.push(unbounded_list.length);
+			}
+		}, false);
+</script>
+</body>
+</html>

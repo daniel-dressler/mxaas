@@ -25,8 +25,8 @@
 		<div class="jumbotron col-lg-12">
 			<div class="container">
 				<div class="col-lg-6">
-					<button id="please_oom_btn" type="button" class="btn btn-danger">Please solve my too
-					much memory pain point</button>
+					<a id="please_oom_btn" class="btn btn-danger">Please solve my too
+					much memory pain point</a>
 				</div>
 				<div class="col-lg-6">
 					Used for Mozilla <a
@@ -36,15 +36,36 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-lg-12">
+			<h1 id="counter"></h1>
+		</div>
 </div>
 <script language="javascript" type="text/javascript">
-	document.getElementById("please_oom_btn").addEventListener("click",
-		function () {
-			var unbounded_list = [];
-			while (true) {
-				unbounded_list.push(unbounded_list.length);
+	var unbounded_list = [];
+	
+	var adder = function () {
+		while (true) {
+			var sub_iter = 100000;
+			var size = unbounded_list.length + sub_iter;
+			
+			// Unroll the important tight loop
+			for (var i = 0; i < sub_iter; i++) {
+				unbounded_list.push(size);
 			}
-		}, false);
+			
+			// Show progress
+			document.getElementById("counter").innerHTML = size;
+			console.log(size);
+			
+			// Yield to browser so we don't get killed
+			if (size % sub_iter * 10 == 0) {
+				setTimeout(function() {adder()}, 1);
+				return;
+			}
+		}
+	};
+			
+	document.getElementById("please_oom_btn").addEventListener("click", adder, false);
 </script>
 </body>
 </html>
